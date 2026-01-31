@@ -13,8 +13,9 @@ void main() {
     print("1. Tính tiền mua kem");
     print("2. Kiểm tra số nguyên");
     print("3. Làm việc với danh sách");
-    print("4. Xử lý chuỗi");
-    print("5. Danh sách số ngẫu nhiên");
+    print("4. Danh sách số ngẫu nhiên");
+    print("5. Xử lý chuỗi");
+
     print("Nhập lựa chọn của bạn (1-5): ");
 
     luaChon = int.parse(stdin.readLineSync()!);
@@ -30,10 +31,10 @@ void main() {
         danhsachsonguyen();
         break;
       case 4:
-        xulychuoi();
+        dsachsonguyenngaunhien();
         break;
       case 5:
-        dsachsonguyenngaunhien();
+        xulychuoi();
         break;
       case 0:
         print("Thoát chương trình. Tạm biệt!");

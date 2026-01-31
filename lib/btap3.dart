@@ -10,7 +10,12 @@ bool laSoNguyenTo(int n) {
 
 void danhsachsonguyen() {
   print("Nhập danh sách số nguyên, cách nhau bởi dấu cách: ");
-  List<int> ds = stdin.readLineSync()!.split(' ').map(int.parse).toList();
+  List<int> ds = stdin
+      .readLineSync()!
+      .trim()
+      .split(RegExp(r'\s+'))
+      .map(int.parse)
+      .toList();
 
   // a. Xuất danh sách
   print("Danh sách vừa nhập: $ds");
@@ -28,7 +33,7 @@ void danhsachsonguyen() {
   int value = int.parse(stdin.readLineSync()!);
 
   if (ds.contains(value)) {
-    int viTri = ds.indexOf(value);
+    int viTri = ds.indexOf(value) + 1;
     print("Giá trị $value có trong danh sách tại vị trí $viTri");
   } else {
     ds.insert(0, value);

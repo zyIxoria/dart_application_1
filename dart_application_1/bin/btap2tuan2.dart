@@ -3,94 +3,65 @@ import 'package:dart_application_1/MonHoc.dart';
 import 'package:dart_application_1/LyThuyet.dart';
 import 'package:dart_application_1/ThucHanh.dart';
 import 'package:dart_application_1/DoAn.dart';
+import 'package:dart_application_1/docFileMonHoc.dart';
 
 void main() {
   List<MonHoc> danhSach = [];
+  docFile(danhSach); // đọc file vào danh sách
 
-  // Giả lập đọc file monhoc.txt (Yêu cầu cuối)
-  // Định dạng file: Loai#Ma#Ten#TC#Diem1#Diem2...
-  void docFile() {
-    try {
-      final file = File('monhoc.txt');
-      if (!file.existsSync()) return;
-      List<String> lines = file.readAsLinesSync();
-      for (var line in lines) {
-        var d = line.split('#');
-        if (d[0] == 'LT') {
-          danhSach.add(
-            LyThuyet(
-              d[1],
-              d[2],
-              int.parse(d[3]),
-              double.parse(d[4]),
-              double.parse(d[5]),
-            ),
-          );
-        }
-        if (d[0] == 'TH') {
-          danhSach.add(
-            ThucHanh(d[1], d[2], int.parse(d[3]), [
-              double.parse(d[4]),
-              double.parse(d[5]),
-              double.parse(d[6]),
-            ]),
-          );
-        }
-        if (d[0] == 'DA') {
-          danhSach.add(
-            DoAn(
-              d[1],
-              d[2],
-              int.parse(d[3]),
-              double.parse(d[4]),
-              double.parse(d[5]),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      print("Lỗi file: $e");
-    }
-  }
+  print('--- DANH SÁCH ĐỌC TỪ FILE ---');
+  danhSach.forEach(print);
+  // 1. Nhập danh sách môn học
+  danhSach.add(LyThuyet('LT01', 'CTRR', 3, 8, 9));
+  danhSach.add(ThucHanh('TH01', 'LapTrinh', 4, [7, 8, 9]));
+  danhSach.add(DoAn('DA01', 'DoAn1', 5, 8, 9));
+  danhSach.add(LyThuyet('LT02', 'OOP', 3, 7, 8));
+  danhSach.add(ThucHanh('TH02', 'CSDL', 4, [6, 7, 8]));
 
-  docFile();
+  // 2. Xuất danh sách
+  print('--- DANH SÁCH MÔN HỌC ---');
+  danhSach.forEach(print);
 
-  // 1. Kiểm tra danh sách có sắp xếp tăng dần theo tên không?
-  bool isSortedByName = true;
+  // 3. Kiểm tra sắp xếp theo tên
+  bool sortedByName = true;
   for (int i = 0; i < danhSach.length - 1; i++) {
     if (danhSach[i].tenMon.compareTo(danhSach[i + 1].tenMon) > 0) {
-      isSortedByName = false;
+      sortedByName = false;
       break;
     }
   }
-  print("Danh sách có sắp xếp theo tên? ${isSortedByName ? "Có" : "Không"}");
+  print('\nDanh sách có sắp xếp theo tên? ${sortedByName ? "Có" : "Không"}');
 
-  // 2. Sắp xếp danh sách tăng dần theo số tín chỉ
-  danhSach.sort((a, b) => a.soTinChi.compareTo(b.soTinChi));
-  print("\n--- Danh sách sau khi sắp xếp theo Tín chỉ ---");
-  danhSach.forEach(print);
-
-  // 3. Tìm môn học có số tín chỉ cao nhất
-  int maxTC = danhSach.map((m) => m.soTinChi).reduce((a, b) => a > b ? a : b);
-  print("\n--- Môn học có số tín chỉ cao nhất ($maxTC TC) ---");
-  danhSach.where((m) => m.soTinChi == maxTC).forEach(print);
-
-  // 4. Tìm kiếm hoặc thêm môn học
-  print("\nNhập tên môn học cần tìm:");
-  String? searchName = stdin.readLineSync();
-  var found = danhSach.where(
-    (m) => m.tenMon.toLowerCase() == searchName?.toLowerCase(),
-  );
-
-  if (found.isNotEmpty) {
-    print("Thông tin môn học: ${found.first}");
+  // 4. Sắp xếp theo số tín chỉ
+  if (danhSach.isNotEmpty) {
+    danhSach.sort((a, b) => a.soTinChi.compareTo(b.soTinChi));
+    print('--- Danh sách sau khi sắp xếp theo Tín chỉ ---');
+    danhSach.forEach(print);
   } else {
-    print("Không thấy, đã thêm tên vào cuối danh sách (giả lập)");
-    // Code thêm mới tùy loại sẽ thực hiện ở đây
+    print('Danh sách trống, không thể sắp xếp theo Tín chỉ');
   }
 
-  // 5. Tính số tín chỉ trung bình
+  // 5. Môn có số tín chỉ cao nhất
+  if (danhSach.isNotEmpty) {
+    var maxTinChi = danhSach.reduce((a, b) => a.soTinChi > b.soTinChi ? a : b);
+    print('\n--- MÔN CÓ TÍN CHỈ CAO NHẤT (${maxTinChi.soTinChi} TC) ---');
+    danhSach.where((m) => m.soTinChi == maxTinChi.soTinChi).forEach(print);
+  }
+
+  // 6. Tìm kiếm theo tên
+  print('\nNhập tên môn cần tìm:');
+  String? ten = stdin.readLineSync();
+  var kq = danhSach.where((m) => m.tenMon.toLowerCase() == ten?.toLowerCase());
+
+  if (kq.isNotEmpty) {
+    print('Tìm thấy: ${kq.first}');
+  } else {
+    print('Không tìm thấy, đã thêm môn mới (giả lập)');
+    danhSach.add(LyThuyet('NEW', ten ?? 'Unknown', 2, 0, 0));
+  }
+
+  // 7. Tính số tín chỉ trung bình
   double avgTC =
       danhSach.map((m) => m.soTinChi).reduce((a, b) => a + b) / danhSach.length;
-  print("\nSố tín chỉ trung bình: ${avgTC.toStringAsFixed(2)}");
+  print('\nSố tín chỉ trung bình: ${avgTC.toStringAsFixed(2)}');
 }

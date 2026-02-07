@@ -7,11 +7,9 @@ abstract class MonHoc {
 
   MonHoc(this.maMon, this.tenMon, this.soTinChi);
 
-  // Phương thức trừu tượng tính DTB theo từng loại
   double tinhDTB();
 
-  // Quy đổi điểm sang hệ chữ (Điểm hệ 4)
-  String quyDoiDiemChu() {
+  String quyDoiHe4() {
     double dtb = tinhDTB();
     if (dtb >= 8.5) return 'A';
     if (dtb >= 7.0) return 'B';
@@ -22,6 +20,6 @@ abstract class MonHoc {
 
   @override
   String toString() {
-    return '[$maMon] $tenMon ($soTinChi TC) - DTB: ${tinhDTB().toStringAsFixed(2)} - Hệ chữ: ${quyDoiDiemChu()}';
+    return '[$maMon] $tenMon | TC: $soTinChi | DTB: ${tinhDTB().toStringAsFixed(2)} | Hệ 4: ${quyDoiHe4()}';
   }
 }

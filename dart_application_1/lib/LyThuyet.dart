@@ -2,7 +2,9 @@
 import 'package:dart_application_1/MonHoc.dart';
 
 class LyThuyet extends MonHoc {
-  double diemTieuLuan, diemCuoiKy;
+  double diemTieuLuan;
+  double diemCuoiKy;
+
   LyThuyet(String ma, String ten, int tc, this.diemTieuLuan, this.diemCuoiKy)
     : super(ma, ten, tc);
 

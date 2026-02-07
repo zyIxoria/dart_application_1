@@ -2,10 +2,10 @@
 import 'package:dart_application_1/MonHoc.dart';
 
 class ThucHanh extends MonHoc {
-  List<double> diemKiemTra;
-  ThucHanh(String ma, String ten, int tc, this.diemKiemTra)
-    : super(ma, ten, tc);
+  List<double> diemKT;
+
+  ThucHanh(String ma, String ten, int tc, this.diemKT) : super(ma, ten, tc);
 
   @override
-  double tinhDTB() => diemKiemTra.reduce((a, b) => a + b) / diemKiemTra.length;
+  double tinhDTB() => diemKT.reduce((a, b) => a + b) / diemKT.length;
 }
